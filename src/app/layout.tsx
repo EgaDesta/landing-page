@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Geist, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const hankenGrotesk = Hanken_Grotesk({
+const geist = Geist({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
@@ -45,10 +45,7 @@ export const metadata: Metadata = {
     description:
       "Crafting high-performance web experiences with precision and minimalist aesthetics.",
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
   authors: [{ name: "vinxxo" }],
   creator: "vinxxo",
 };
@@ -59,20 +56,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${hankenGrotesk.variable} ${jetbrainsMono.variable}`}
-    >
+    <html lang="en" className={`${geist.variable} ${jetbrainsMono.variable}`}>
       <head>
-        <link
-          rel="preconnect"
-          href="https://fonts.googleapis.com"
-        />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"

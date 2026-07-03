@@ -1,43 +1,22 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-surface: #fafaf4;
-  --color-surface-dim: #dadad5;
-  --color-surface-bright: #fafaf4;
-  --color-surface-container: #eeeee9;
-  --color-surface-container-low: #f4f4ef;
-  --color-surface-container-high: #e8e8e3;
-  --color-surface-container-highest: #e3e3de;
-  --color-surface-container-lowest: #ffffff;
-  --color-on-surface: #1a1c19;
-  --color-on-surface-variant: #444748;
+  --color-surface: #f0f6f7;
+  --color-surface-dim: #d6e6ec;
+  --color-on-surface: #0f1012;
+  --color-on-surface-variant: #4e4d4f;
   --color-primary: #000000;
   --color-on-primary: #ffffff;
-  --color-primary-container: #1c1b1b;
-  --color-on-primary-container: #858383;
-  --color-secondary: #5d5f5d;
-  --color-on-secondary: #ffffff;
-  --color-secondary-container: #e2e3e0;
-  --color-on-secondary-container: #636563;
-  --color-outline: #747878;
-  --color-outline-variant: #c4c7c7;
-  --color-background: #fafaf4;
-  --color-on-background: #1a1c19;
-  --color-inverse-surface: #2f312e;
-  --color-inverse-on-surface: #f1f1ec;
-  --color-inverse-primary: #c8c6c5;
+  --color-background: #f0f6f7;
+  --color-on-background: #0f1012;
+  --color-accent: #61e2a1;
 
-  --font-display: "Hanken Grotesk", sans-serif;
-  --font-body: "Hanken Grotesk", sans-serif;
+  --font-display: "Geist", sans-serif;
+  --font-body: "Geist", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 
-  --spacing-gutter: 24px;
   --spacing-margin-desktop: 64px;
-  --spacing-margin-mobile: 20px;
   --spacing-container-max: 1280px;
-
-  --text-headline-md: 2rem;
-  --text-display-lg: 4.5rem;
 }
 
 html {
@@ -47,29 +26,92 @@ html {
 body {
   margin: 0;
   overflow-x: hidden;
+  background: #f0f6f7;
 }
 
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #fafaf4;
+  background: #d6e6ec;
 }
 ::-webkit-scrollbar-thumb {
+  background: #4e4d4f;
+}
+
+/* === ASCII TEXTURE BACKGROUND === */
+.ascii-bg {
+  position: relative;
+}
+
+.ascii-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Ctext x='0' y='10' font-family='JetBrains Mono, monospace' font-size='5' fill='%23919fa5' opacity='0.15'%3E...:::...:::...:::...:::...:::...:::...:::...:::...:::...:::...:::...:::%3C/text%3E%3Ctext x='0' y='16' font-family='JetBrains Mono, monospace' font-size='5' fill='%23919fa5' opacity='0.12'%3E+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*%3C/text%3E%3Ctext x='0' y='22' font-family='JetBrains Mono, monospace' font-size='5' fill='%23919fa5' opacity='0.1'%3E--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%%3C/text%3E%3Ctext x='0' y='28' font-family='JetBrains Mono, monospace' font-size='5' fill='%23919fa5' opacity='0.15'%3E@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.%3C/text%3E%3Ctext x='0' y='34' font-family='JetBrains Mono, monospace' font-size='5' fill='%23919fa5' opacity='0.12'%3E~::~::~::~::~::~::~::~::~::~::~::~::~::~::~::~::~%~C/text%3E%3Ctext x='0' y='40' font-family='JetBrains Mono, monospace' font-size='5' fill='%23919fa5' opacity='0.1'%3E***###***###***###***###***###***###***###***###***###***###%3C/text%3E%3Ctext x='0' y='46' font-family='JetBrains Mono, monospace' font-size='5' fill='%23919fa5' opacity='0.12'%3E+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*%3C/text%3E%3Ctext x='0' y='52' font-family='JetBrains Mono, monospace' font-size='5' fill='%23919fa5' opacity='0.15'%3E...:::...:::...:::...:::...:::...:::...:::...:::...:::...:::%3C/text%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 120px 120px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* === CORNER BRACKETS === */
+.corner-brackets {
+  position: relative;
+}
+.corner-brackets::before,
+.corner-brackets::after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-color: #4e4d4f;
+  border-style: solid;
+  opacity: 0.3;
+}
+.corner-brackets::before {
+  top: 0;
+  left: 0;
+  border-width: 2px 0 0 2px;
+}
+.corner-brackets::after {
+  top: 0;
+  right: 0;
+  border-width: 2px 2px 0 0;
+}
+
+/* === ASCII PATTERNS (dark side) === */
+.ascii-dark-bg::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Ctext x='0' y='10' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.08'%3E...:::...:::...:::...:::...:::...:::...:::...:::...:::...:::%3C/text%3E%3Ctext x='0' y='16' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.06'%3E+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*%3C/text%3E%3Ctext x='0' y='22' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.05'%3E--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%%3C/text%3E%3Ctext x='0' y='28' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.08'%3E@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.%3C/text%3E%3Ctext x='0' y='34' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.06'%3E~::~::~::~::~::~::~::~::~::~::~::~::~::~::~::~::~%3C/text%3E%3Ctext x='0' y='40' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.05'%3E***###***###***###***###***###***###***###***###***###***###%3C/text%3E%3Ctext x='0' y='46' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.06'%3E+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*%3C/text%3E%3Ctext x='0' y='52' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.08'%3E...:::...:::...:::...:::...:::...:::...:::...:::...:::...:::%3C/text%3E%3C/svg%3E");
+}
+
+/* Terminal cursor blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.cursor-blink::after {
+  content: "_";
+  animation: blink 1s step-end infinite;
+  color: #61e2a1;
+}
+
+/* Split divider */
+.split-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
   background: #000;
+  z-index: 30;
 }
-
-.pattern-dots {
-  background-image: radial-gradient(circle, #000 1px, transparent 1px);
-  background-size: 12px 12px;
-}
-
-.pattern-lines {
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 8px,
-    rgba(0, 0, 0, 0.08) 8px,
-    rgba(0, 0, 0, 0.08) 9px
-  );
+.split-divider::before {
+  content: "◆";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 8px;
+  color: #000;
 }

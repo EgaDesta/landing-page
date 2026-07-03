@@ -3,15 +3,8 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Navbar from "@/components/navbar";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const stats = [
-  { value: "5+", label: "Years\nExperience" },
-  { value: "50+", label: "Projects\nDelivered" },
-  { value: "30+", label: "Happy\nClients" },
-];
 
 const services = [
   {
@@ -31,162 +24,213 @@ const services = [
   },
 ];
 
+const asciiArt = `
+  :::       :::  ::::::::::  ::::::::::  :::    :::
+  :+:       :+:  :+:         :+:         :+:   :+:
+  +:+       +:+  +:+         +:+         +:+  +:+
+  +#+  +:+  +#+  +#++:++#    +#++:++#    +#++:++
+  +#+ +#+#+ +#+  +#+         +#+         +#+  +#+
+   #+#+# #+#+#   #+#         #+#         #+#   #+#
+    ###   ###    ##########  ##########  ###    ###
+`.trim();
+
 export default function Home() {
-  const mainRef = useRef<HTMLDivElement>(null);
-  const curtainRef = useRef<HTMLDivElement>(null);
-  const heroContentRef = useRef<HTMLDivElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
-  const darkSectionRef = useRef<HTMLDivElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const darkPanelRef = useRef<HTMLDivElement>(null);
+  const leftContentRef = useRef<HTMLDivElement>(null);
+  const rightContentRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLDivElement>(null);
+  const dividerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: mainRef.current,
+          trigger: pinRef.current,
           start: "top top",
           end: "+=200%",
-          scrub: 1,
-          pin: false,
+          scrub: 1.2,
+          pin: true,
+          anticipatePin: 1,
         },
       });
 
-      tl.to(curtainRef.current, {
-        scaleY: 1,
-        transformOrigin: "top center",
+      tl.to(darkPanelRef.current, {
+        width: "100%",
         ease: "power2.inOut",
-        duration: 1,
-      });
+      }, 0);
 
-      tl.to(
-        heroContentRef.current,
-        { opacity: 0, y: -50, duration: 0.5 },
-        "-=0.5"
-      );
+      tl.to(leftContentRef.current, {
+        opacity: 0,
+        x: -40,
+        ease: "power2.in",
+      }, 0);
 
-      tl.to(
-        statsRef.current,
-        { opacity: 1, y: 0, duration: 0.5 },
-        "-=0.3"
-      );
+      tl.fromTo(rightContentRef.current, {
+        opacity: 0, x: 40,
+      }, {
+        opacity: 1, x: 0,
+        ease: "power2.out",
+      }, 0.2);
 
-      tl.to(darkSectionRef.current, {
-        backgroundColor: "#000000",
-        duration: 1,
-      });
-    }, mainRef);
+      tl.to(navRef.current, { opacity: 0, y: -30, ease: "power2.inOut" }, 0);
+      tl.to(dividerRef.current, { opacity: 0, ease: "power2.inOut" }, 0);
+    }, pinRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
     <>
-      <Navbar />
-      <div ref={mainRef} className="relative">
-        {/* HERO SECTION */}
-        <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-surface px-6">
-          <div className="pattern-dots pointer-events-none absolute inset-0 opacity-30" />
-          <div
-            ref={curtainRef}
-            className="pattern-lines pointer-events-none absolute inset-0 origin-top scale-y-0"
-          />
-          <div ref={heroContentRef} className="relative z-10 max-w-3xl text-center">
-            <span className="font-mono text-xs tracking-[0.3em] text-on-surface-variant uppercase">
-              Creative Technologist
-            </span>
-            <h1 className="mt-6 font-display text-6xl font-bold leading-none tracking-tighter text-primary md:text-8xl">
+      {/* NAV */}
+      <div ref={navRef} className="fixed left-0 right-0 top-0 z-50 px-margin-desktop py-6">
+        <div className="mx-auto flex max-w-container-max items-center justify-between">
+          <span className="font-display text-xl font-bold tracking-tight text-primary">
+            vinxxo
+          </span>
+          <div className="flex items-center gap-6">
+            <a href="#work" className="font-mono text-xs tracking-widest text-on-surface-variant uppercase hover:text-primary transition-colors">Work</a>
+            <a href="#about" className="font-mono text-xs tracking-widest text-on-surface-variant uppercase hover:text-primary transition-colors">About</a>
+            <a href="#contact" className="rounded border border-primary px-5 py-1.5 font-mono text-xs tracking-widest text-primary uppercase hover:bg-primary hover:text-surface transition-colors">Contact</a>
+          </div>
+        </div>
+      </div>
+
+      {/* PINNED SPLIT SCREEN */}
+      <div ref={pinRef} className="relative h-screen">
+        <div ref={heroRef} className="ascii-bg relative h-screen w-full overflow-hidden bg-surface">
+
+          {/* LIGHT SIDE */}
+          <div ref={leftContentRef} className="relative z-10 flex h-full flex-col justify-center px-16">
+            <div className="mb-6 flex items-center gap-2">
+              <span className="inline-block h-2 w-2 rounded-full bg-accent" />
+              <span className="font-mono text-xs tracking-widest text-on-surface-variant uppercase">Creative Technologist</span>
+            </div>
+
+            <h1 className="max-w-xl font-display text-7xl font-bold leading-[0.95] tracking-tighter text-primary">
               Engineering
               <br />
-              the Digital
+              <span className="text-on-surface-variant/40">the Digital</span>
               <br />
               Future
             </h1>
-            <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-on-surface-variant">
+
+            <p className="mt-6 max-w-md font-mono text-sm leading-relaxed text-on-surface-variant">
               Creating high-performance web experiences with precision
               and minimalist aesthetics.
+              <span className="cursor-blink" />
             </p>
-            <div className="mt-10 flex items-center justify-center gap-4">
-              <a
-                href="#work"
-                className="rounded-lg bg-primary px-8 py-3 font-medium text-surface transition-all hover:opacity-90"
-              >
+
+            <div className="mt-10 flex gap-4">
+              <a href="#work" className="rounded bg-primary px-7 py-3 font-mono text-xs tracking-widest text-surface uppercase transition-all hover:opacity-90">
                 View My Work
               </a>
-              <a
-                href="#contact"
-                className="rounded-lg border border-primary px-8 py-3 font-medium text-primary transition-all hover:bg-primary hover:text-surface"
-              >
+              <a href="#contact" className="rounded border border-primary/40 px-7 py-3 font-mono text-xs tracking-widest text-primary uppercase transition-colors hover:border-primary hover:bg-primary hover:text-surface">
                 Get in Touch
               </a>
             </div>
+
+            {/* ASCII art decoration */}
+            <pre className="mt-16 font-mono text-[6px] leading-[1.1] text-on-surface-variant/20 select-none">
+              {asciiArt}
+            </pre>
           </div>
 
-          {/* STATS */}
+          {/* DARK ROTATING PANEL */}
           <div
-            ref={statsRef}
-            className="relative z-10 mt-24 grid w-full max-w-2xl grid-cols-3 gap-8 border-t border-outline/20 pt-12 opacity-0 translate-y-8"
+            ref={darkPanelRef}
+            className="ascii-dark-bg absolute right-0 top-0 z-20 h-full w-1/2 origin-left overflow-hidden bg-black"
           >
-            {stats.map((s) => (
-              <div key={s.label} className="text-center">
-                <span className="font-display text-4xl font-bold text-primary">
-                  {s.value}
+            {/* Corner brackets */}
+            <div className="corner-brackets absolute inset-0 z-20" />
+
+            <div ref={rightContentRef} className="relative z-10 flex h-full flex-col justify-center px-16 text-white">
+              <div className="mb-6 flex items-center gap-2">
+                <span className="inline-block h-2 w-2 rounded-full bg-accent animate-pulse" />
+                <span className="font-mono text-xs tracking-widest text-white/40 uppercase">Featured Work</span>
+              </div>
+
+              <h2 className="max-w-md font-display text-4xl font-semibold leading-tight text-white">
+                Every pixel tells a story.
+                <br />
+                Every interaction is intentional.
+              </h2>
+
+              <div className="mt-10 flex gap-12">
+                <div>
+                  <span className="font-display text-5xl font-bold text-white">5+</span>
+                  <p className="mt-1 font-mono text-xs text-white/40">Years Exp.</p>
+                </div>
+                <div>
+                  <span className="font-display text-5xl font-bold text-white">50+</span>
+                  <p className="mt-1 font-mono text-xs text-white/40">Projects</p>
+                </div>
+                <div>
+                  <span className="font-display text-5xl font-bold text-white">30+</span>
+                  <p className="mt-1 font-mono text-xs text-white/40">Clients</p>
+                </div>
+              </div>
+
+              {/* Terminal-style status bar */}
+              <div className="mt-16 flex items-center gap-4 border-t border-white/10 pt-4 font-mono text-xs text-white/25">
+                <span className="flex items-center gap-1.5">
+                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
+                  system ready
                 </span>
-                <p className="mt-1 font-mono text-xs text-on-surface-variant whitespace-pre-line">
-                  {s.label}
-                </p>
+                <span>|</span>
+                <span>v2.4.1</span>
+                <span>|</span>
+                <span>connected</span>
+              </div>
+            </div>
+          </div>
+
+          {/* DIVIDER */}
+          <div ref={dividerRef} className="split-divider" />
+        </div>
+      </div>
+
+      {/* DARK SERVICES SECTION */}
+      <section id="work" className="ascii-dark-bg relative flex min-h-screen flex-col items-center justify-center bg-black px-6">
+        <div className="relative z-10 max-w-5xl">
+          <div className="mb-4 flex items-center gap-2">
+            <span className="inline-block h-2 w-2 rounded-full bg-accent" />
+            <span className="font-mono text-xs tracking-[0.3em] text-white/40 uppercase">Core Disciplines</span>
+          </div>
+          <h2 className="font-display text-4xl font-bold text-white md:text-5xl">
+            Precision in every
+            <br />
+            layer of the stack
+          </h2>
+          <div className="mt-16 grid gap-6 md:grid-cols-3">
+            {services.map((svc) => (
+              <div
+                key={svc.number}
+                className="corner-brackets group rounded border border-white/10 bg-white/[0.03] p-8 transition-all hover:bg-white/[0.07]"
+              >
+                <span className="font-mono text-sm text-white/20">// {svc.number}</span>
+                <h3 className="mt-4 font-display text-xl font-semibold text-white">{svc.title}</h3>
+                <p className="mt-3 font-mono text-sm leading-relaxed text-white/50">{svc.desc}</p>
               </div>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* DARK SECTION */}
-        <section
-          ref={darkSectionRef}
-          className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-neutral-900 px-6"
-        >
-          <div className="pattern-lines pointer-events-none absolute inset-0 opacity-10" />
-          <div className="relative z-10 max-w-5xl">
-            <span className="font-mono text-xs tracking-[0.3em] text-white/40 uppercase">
-              Core Disciplines
-            </span>
-            <h2 className="mt-4 font-display text-4xl font-bold text-white md:text-5xl">
-              Precision in every
-              <br />
-              layer of the stack
-            </h2>
-            <div className="mt-16 grid gap-6 md:grid-cols-3">
-              {services.map((svc) => (
-                <div
-                  key={svc.number}
-                  className="group rounded-xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm transition-all hover:bg-white/10"
-                >
-                  <span className="font-mono text-sm text-white/30">{svc.number}</span>
-                  <h3 className="mt-4 font-display text-xl font-semibold text-white">
-                    {svc.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-white/60">
-                    {svc.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
+      {/* FOOTER */}
+      <footer className="ascii-dark-bg relative flex min-h-[30vh] items-center justify-center bg-black px-6">
+        <div className="relative z-10 text-center">
+          <span className="font-display text-3xl font-bold tracking-tighter text-white">vinxxo</span>
+          <div className="mt-4 flex items-center justify-center gap-2 font-mono text-xs tracking-widest text-white/30 uppercase">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
+            Creative Technologist
           </div>
-        </section>
-
-        {/* FOOTER */}
-        <footer className="flex min-h-[30vh] items-center justify-center bg-black px-6">
-          <div className="text-center">
-            <span className="font-display text-3xl font-bold tracking-tighter text-white">
-              vinxxo
-            </span>
-            <p className="mt-4 font-mono text-xs tracking-widest text-white/30 uppercase">
-              Creative Technologist
-            </p>
-            <p className="mt-8 font-mono text-xs text-white/20">
-              &copy; {new Date().getFullYear()} vinxxo. All rights reserved.
-            </p>
-          </div>
-        </footer>
-      </div>
+          <pre className="mt-10 font-mono text-[6px] leading-[1.1] text-white/10 select-none">
+            {asciiArt}
+          </pre>
+        </div>
+      </footer>
     </>
   );
 }
