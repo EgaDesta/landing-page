@@ -36,29 +36,40 @@
   --spacing-margin-mobile: 20px;
   --spacing-container-max: 1280px;
 
-  --text-headline-md: 32px;
-  --text-display-lg: 72px;
+  --text-headline-md: 2rem;
+  --text-display-lg: 4.5rem;
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-.halftone-light {
-  background-image: radial-gradient(circle, #000000 1px, transparent 1px);
-  background-size: 8px 8px;
-  mask-image: linear-gradient(to right, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.02) 100%);
-  -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.02) 100%);
+body {
+  margin: 0;
+  overflow-x: hidden;
 }
 
-.halftone-dark {
-  background-image: radial-gradient(circle, #ffffff 1px, transparent 1px);
-  background-size: 8px 8px;
-  mask-image: linear-gradient(to left, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
-  -webkit-mask-image: linear-gradient(to left, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #fafaf4;
+}
+::-webkit-scrollbar-thumb {
+  background: #000;
 }
 
-.material-symbols-outlined {
-  font-family: "Material Symbols Outlined";
-  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+.pattern-dots {
+  background-image: radial-gradient(circle, #000 1px, transparent 1px);
+  background-size: 12px 12px;
+}
+
+.pattern-lines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 8px,
+    rgba(0, 0, 0, 0.08) 8px,
+    rgba(0, 0, 0, 0.08) 9px
+  );
 }

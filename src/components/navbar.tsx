@@ -1,38 +1,51 @@
-const navLinks = [
-  { label: "Home", href: "#", active: true },
-  { label: "Work", href: "#work" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
-];
+"use client";
+
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Navbar() {
+  const navRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+
+    gsap.to(nav, {
+      yPercent: -100,
+      opacity: 0,
+      ease: "power2.inOut",
+      scrollTrigger: {
+        trigger: document.body,
+        start: "top -10%",
+        end: "top -30%",
+        scrub: 1,
+      },
+    });
+  }, []);
+
   return (
-    <header className="fixed top-0 z-50 w-full border-b border-outline/10 bg-surface/80 backdrop-blur-xl">
-      <nav className="mx-auto flex h-20 max-w-container-max items-center justify-between px-margin-desktop py-gutter">
-        <span className="font-display text-headline-md font-bold tracking-tighter text-primary">
+    <header
+      ref={navRef}
+      className="fixed top-0 z-50 w-full px-margin-desktop py-6"
+    >
+      <nav className="mx-auto flex max-w-container-max items-center justify-between">
+        <span className="font-display text-2xl font-bold tracking-tighter text-primary">
           vinxxo
         </span>
-        <div className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className={
-                link.active
-                  ? "border-b-2 border-primary pb-1 font-bold text-primary"
-                  : "text-on-surface-variant transition-colors hover:text-primary"
-              }
-            >
-              {link.label}
-            </a>
-          ))}
+        <div className="flex items-center gap-8">
+          <a href="#work" className="font-mono text-xs tracking-widest text-on-surface-variant uppercase hover:text-primary transition-colors">
+            Work
+          </a>
+          <a href="#about" className="font-mono text-xs tracking-widest text-on-surface-variant uppercase hover:text-primary transition-colors">
+            About
+          </a>
+          <a href="#contact" className="rounded-full border border-primary px-6 py-2 font-mono text-xs tracking-widest text-primary uppercase transition-colors hover:bg-primary hover:text-surface">
+            Contact
+          </a>
         </div>
-        <button
-          className="material-symbols-outlined rounded-full p-2 text-primary transition-all hover:bg-secondary-container/10"
-          aria-label="Email"
-        >
-          mail
-        </button>
       </nav>
     </header>
   );
