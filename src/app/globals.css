@@ -82,7 +82,24 @@ body {
 
 /* === ASCII PATTERNS (dark side) === */
 .ascii-dark-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Ctext x='0' y='10' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.08'%3E...:::...:::...:::...:::...:::...:::...:::...:::...:::...:::%3C/text%3E%3Ctext x='0' y='16' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.06'%3E+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*%3C/text%3E%3Ctext x='0' y='22' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.05'%3E--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%%3C/text%3E%3Ctext x='0' y='28' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.08'%3E@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.%3C/text%3E%3Ctext x='0' y='34' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.06'%3E~::~::~::~::~::~::~::~::~::~::~::~::~::~::~::~::~%3C/text%3E%3Ctext x='0' y='40' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.05'%3E***###***###***###***###***###***###***###***###***###***###%3C/text%3E%3Ctext x='0' y='46' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.06'%3E+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*%3C/text%3E%3Ctext x='0' y='52' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.08'%3E...:::...:::...:::...:::...:::...:::...:::...:::...:::...:::%3C/text%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 120px 120px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* === TIMELINE ACTIVE STATES === */
+.active-dot {
+  background: #61e2a1 !important;
+  border-color: #61e2a1 !important;
+  box-shadow: 0 0 12px #61e2a166;
+}
+.active-company {
+  color: white !important;
 }
 
 /* Terminal cursor blink */
