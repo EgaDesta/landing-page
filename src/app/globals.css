@@ -1,22 +1,14 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-surface: #f0f6f7;
-  --color-surface-dim: #d6e6ec;
-  --color-on-surface: #0f1012;
+  --color-surface: #ffffff;
+  --color-on-surface: #000000;
   --color-on-surface-variant: #4e4d4f;
   --color-primary: #000000;
-  --color-on-primary: #ffffff;
-  --color-background: #f0f6f7;
-  --color-on-background: #0f1012;
-  --color-accent: #61e2a1;
-
-  --font-display: "Geist", sans-serif;
-  --font-body: "Geist", sans-serif;
+  --color-background: #ffffff;
+  --color-accent: #ffffff;
+  --font-body: "JetBrains Mono", monospace;
   --font-mono: "JetBrains Mono", monospace;
-
-  --spacing-margin-desktop: 64px;
-  --spacing-container-max: 1280px;
 }
 
 html {
@@ -26,36 +18,15 @@ html {
 body {
   margin: 0;
   overflow-x: hidden;
-  background: #f0f6f7;
+  background: #000;
+  font-family: "JetBrains Mono", monospace;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #d6e6ec;
-}
-::-webkit-scrollbar-thumb {
-  background: #4e4d4f;
-}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #333; }
 
-/* === ASCII TEXTURE BACKGROUND === */
-.ascii-bg {
-  position: relative;
-}
-
-.ascii-bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Ctext x='0' y='10' font-family='JetBrains Mono, monospace' font-size='5' fill='%23919fa5' opacity='0.15'%3E...:::...:::...:::...:::...:::...:::...:::...:::...:::...:::...:::...:::%3C/text%3E%3Ctext x='0' y='16' font-family='JetBrains Mono, monospace' font-size='5' fill='%23919fa5' opacity='0.12'%3E+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*%3C/text%3E%3Ctext x='0' y='22' font-family='JetBrains Mono, monospace' font-size='5' fill='%23919fa5' opacity='0.1'%3E--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%%3C/text%3E%3Ctext x='0' y='28' font-family='JetBrains Mono, monospace' font-size='5' fill='%23919fa5' opacity='0.15'%3E@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.%3C/text%3E%3Ctext x='0' y='34' font-family='JetBrains Mono, monospace' font-size='5' fill='%23919fa5' opacity='0.12'%3E~::~::~::~::~::~::~::~::~::~::~::~::~::~::~::~::~%~C/text%3E%3Ctext x='0' y='40' font-family='JetBrains Mono, monospace' font-size='5' fill='%23919fa5' opacity='0.1'%3E***###***###***###***###***###***###***###***###***###***###%3C/text%3E%3Ctext x='0' y='46' font-family='JetBrains Mono, monospace' font-size='5' fill='%23919fa5' opacity='0.12'%3E+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*%3C/text%3E%3Ctext x='0' y='52' font-family='JetBrains Mono, monospace' font-size='5' fill='%23919fa5' opacity='0.15'%3E...:::...:::...:::...:::...:::...:::...:::...:::...:::...:::%3C/text%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 120px 120px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* === CORNER BRACKETS === */
+/* Corner brackets */
 .corner-brackets {
   position: relative;
 }
@@ -63,46 +34,31 @@ body {
 .corner-brackets::after {
   content: "";
   position: absolute;
-  width: 24px;
-  height: 24px;
-  border-color: #4e4d4f;
+  width: 20px;
+  height: 20px;
+  border-color: rgba(255,255,255,0.15);
   border-style: solid;
-  opacity: 0.3;
+  opacity: 0.4;
 }
 .corner-brackets::before {
   top: 0;
   left: 0;
-  border-width: 2px 0 0 2px;
+  border-width: 1px 0 0 1px;
 }
 .corner-brackets::after {
   top: 0;
   right: 0;
-  border-width: 2px 2px 0 0;
+  border-width: 1px 1px 0 0;
 }
 
-/* === ASCII PATTERNS (dark side) === */
-.ascii-dark-bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Ctext x='0' y='10' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.08'%3E...:::...:::...:::...:::...:::...:::...:::...:::...:::...:::%3C/text%3E%3Ctext x='0' y='16' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.06'%3E+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*%3C/text%3E%3Ctext x='0' y='22' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.05'%3E--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%--%%%3C/text%3E%3Ctext x='0' y='28' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.08'%3E@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.@.%3C/text%3E%3Ctext x='0' y='34' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.06'%3E~::~::~::~::~::~::~::~::~::~::~::~::~::~::~::~::~%3C/text%3E%3Ctext x='0' y='40' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.05'%3E***###***###***###***###***###***###***###***###***###***###%3C/text%3E%3Ctext x='0' y='46' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.06'%3E+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*+=#*%3C/text%3E%3Ctext x='0' y='52' font-family='JetBrains Mono, monospace' font-size='5' fill='%23ffffff' opacity='0.08'%3E...:::...:::...:::...:::...:::...:::...:::...:::...:::...:::%3C/text%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 120px 120px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* === TIMELINE ACTIVE STATES === */
+/* Timeline active states */
 .active-dot {
-  background: #61e2a1 !important;
-  border-color: #61e2a1 !important;
-  box-shadow: 0 0 12px #61e2a166;
-}
-.active-company {
-  color: white !important;
+  background: #fff !important;
+  border-color: #fff !important;
+  box-shadow: 0 0 16px rgba(255,255,255,0.3);
 }
 
-/* Terminal cursor blink */
+/* Cursor blink */
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
@@ -110,25 +66,9 @@ body {
 .cursor-blink::after {
   content: "_";
   animation: blink 1s step-end infinite;
-  color: #61e2a1;
+  color: #fff;
 }
 
-/* Split divider */
-.split-divider {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 1px;
-  background: #000;
-  z-index: 30;
-}
-.split-divider::before {
-  content: "◆";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 8px;
-  color: #000;
-}
+/* lenis lock */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }

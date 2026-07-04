@@ -1,142 +1,123 @@
 "use client";
-
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import ParticleCanvas from "./particle-canvas";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import type { DeviceTier } from "@/hooks/use-device-capability";
 
-gsap.registerPlugin(ScrollTrigger);
+interface Props { tier: DeviceTier }
 
-const skills = [
-  { name: "React / Next.js", level: 95 },
-  { name: "TypeScript", level: 90 },
-  { name: "Node.js", level: 85 },
-  { name: "UI/UX Design", level: 80 },
-  { name: "Tailwind CSS", level: 95 },
-  { name: "PostgreSQL", level: 75 },
-];
-
-export default function AboutSection() {
+export default function AboutSection({ tier }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const barsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
 
   useEffect(() => {
+    if (reduced) return;
     const ctx = gsap.context(() => {
-      gsap.from(contentRef.current, {
-        y: 60,
-        opacity: 0,
-        ease: "power3.out",
-        duration: 1,
-        scrollTrigger: {
-          trigger: contentRef.current,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        },
+      // dark panel slides from right to cover screen (morph from hero panel)
+      if (panelRef.current) {
+        gsap.fromTo(panelRef.current,
+          { width: "50vw", right: "0vw" },
+          {
+            width: "100vw",
+            right: "0vw",
+            ease: "power2.inOut",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top bottom",
+              end: "top top",
+              scrub: 2,
+            },
+          }
+        );
+      }
+
+      // pin the section
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "+=200%",
+        pin: true,
+        anticipatePin: 1,
       });
 
-      barsRef.current.forEach((bar) => {
-        if (!bar) return;
-        const w = bar.dataset.width || "0";
-        gsap.set(bar, { width: "0%" });
-        gsap.to(bar, {
-          width: w + "%",
-          ease: "power3.out",
-          duration: 1.2,
-          scrollTrigger: {
-            trigger: bar,
-            start: "top 90%",
-            toggleActions: "play none none reverse",
-          },
-        });
-      });
+      // text appears after panel covers
+      if (textRef.current) {
+        gsap.fromTo(textRef.current,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1, y: 0, ease: "power3.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top+=60% top",
+              end: "+=200",
+              scrub: 1.5,
+            },
+          }
+        );
+      }
+
+      // stats stagger
+      if (statsRef.current) {
+        gsap.fromTo(statsRef.current.querySelectorAll(".stat-item"),
+          { opacity: 0, y: 30, scale: 0.8 },
+          {
+            opacity: 1, y: 0, scale: 1, stagger: 0.15, ease: "back.out(2)",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top+=70% top",
+              end: "+=300",
+              scrub: 1.5,
+            },
+          }
+        );
+      }
     }, sectionRef);
-
     return () => ctx.revert();
-  }, []);
+  }, [reduced]);
 
   return (
-    <section
-      id="about"
-      ref={sectionRef}
-      className="ascii-dark-bg relative min-h-screen bg-black px-6 py-32"
-    >
-      <div className="relative z-10 mx-auto max-w-6xl">
-        <div className="grid gap-16 md:grid-cols-2">
-          <div ref={contentRef}>
-            <div className="mb-2 flex items-center gap-2">
-              <span className="inline-block h-2 w-2 rounded-full bg-accent" />
-              <span className="font-mono text-xs tracking-[0.3em] text-white/40 uppercase">
-                About
-              </span>
-            </div>
-            <h2 className="font-display text-4xl font-bold text-white md:text-5xl">
-              Building the
-              <br />
-              future, one
-              <br />
-              pixel at a time
-            </h2>
-            <p className="mt-6 font-mono text-sm leading-relaxed text-white/50">
-              I am a creative technologist with over 5 years of experience
-              crafting high-performance digital experiences. My approach blends
-              engineering precision with minimalist design philosophy to create
-              products that are both beautiful and functional.
-            </p>
-            <p className="mt-4 font-mono text-sm leading-relaxed text-white/40">
-              Based in Indonesia, I work with startups and established
-              companies to bring their digital vision to life — from concept
-              to deployment.
-            </p>
-            <div className="mt-8 flex gap-6">
-              <div>
-                <span className="font-display text-3xl font-bold text-white">5+</span>
-                <p className="mt-1 font-mono text-xs text-white/30">Years Exp.</p>
-              </div>
-              <div>
-                <span className="font-display text-3xl font-bold text-white">50+</span>
-                <p className="mt-1 font-mono text-xs text-white/30">Projects</p>
-              </div>
-              <div>
-                <span className="font-display text-3xl font-bold text-white">20+</span>
-                <p className="mt-1 font-mono text-xs text-white/30">Clients</p>
-              </div>
-            </div>
+    <section id="about" ref={sectionRef} className="relative h-screen bg-black font-mono overflow-hidden">
+      {/* panel slides from right */}
+      <div ref={panelRef} className="absolute right-0 top-0 z-10 h-full bg-black" style={{ width: "50vw" }}>
+        <div className="corner-brackets absolute inset-0 z-20" />
+      </div>
+
+      <ParticleCanvas sectionRef={sectionRef} reduced={reduced} tier={tier} />
+
+      {/* content */}
+      <div className="relative z-30 flex h-screen items-center px-16">
+        <div ref={textRef} className="max-w-xl">
+          <div className="mb-4 flex items-center gap-2">
+            <span className="inline-block h-2 w-2 rounded-full bg-accent" />
+            <span className="text-[10px] tracking-[0.3em] text-white/40 uppercase">About</span>
           </div>
-
-          <div>
-            <span className="mb-6 block font-mono text-xs tracking-widest text-white/30 uppercase">
-              // Skills
-            </span>
-            <div className="space-y-5">
-              {skills.map((s, i) => (
-                <div key={s.name}>
-                  <div className="mb-1.5 flex items-center justify-between">
-                    <span className="font-mono text-sm text-white/70">{s.name}</span>
-                    <span className="font-mono text-xs text-white/30">{s.level}%</span>
-                  </div>
-                  <div className="h-1 overflow-hidden rounded-full bg-white/10">
-                    <div
-                      ref={(el) => { barsRef.current[i] = el }}
-                      data-width={s.level}
-                      className="h-full rounded-full bg-accent"
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-10 flex flex-wrap gap-2 border-t border-white/10 pt-6">
-              {["React", "Next.js", "TypeScript", "Node.js", "Figma", "Tailwind", "PostgreSQL", "AWS", "Docker", "GraphQL"].map(
-                (tech) => (
-                  <span
-                    key={tech}
-                    className="rounded border border-white/10 px-3 py-1 font-mono text-[10px] tracking-wider text-white/30 uppercase"
-                  >
-                    {tech}
-                  </span>
-                )
-              )}
-            </div>
+          <h2 className="font-mono text-4xl font-bold text-white md:text-5xl">
+            Building the
+            <br />
+            future, one
+            <br />
+            pixel at a time
+          </h2>
+          <p className="mt-6 max-w-md text-sm leading-relaxed text-white/50">
+            Creative technologist with 5+ years engineering high-performance digital
+            experiences. My approach blends precision with minimalist design philosophy.
+          </p>
+          <div ref={statsRef} className="mt-8 flex gap-8">
+            {[
+              { n: "5+", l: "Years Exp." },
+              { n: "50+", l: "Projects" },
+              { n: "20+", l: "Clients" },
+            ].map((s) => (
+              <div key={s.l} className="stat-item">
+                <span className="font-mono text-3xl font-bold text-white">{s.n}</span>
+                <p className="mt-1 text-[10px] text-white/30 uppercase tracking-wider">{s.l}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
