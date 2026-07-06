@@ -1,7 +1,9 @@
 "use client";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 import MagneticButton from "./magnetic-button";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import type { DeviceTier } from "@/hooks/use-device-capability";
