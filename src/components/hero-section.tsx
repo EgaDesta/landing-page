@@ -21,13 +21,15 @@ export default function HeroSection({ tier }: Props) {
   const reduced = useReducedMotion();
   const isLow = tier === "low";
 
+  const chars = "vinxxo".split("");
+
   useEffect(() => {
     if (reduced) return;
     const ctx = gsap.context(() => {
       // Title per-character clip-path wipe
-      const chars = titleRef.current?.querySelectorAll(".char");
-      if (chars?.length) {
-        gsap.fromTo(chars,
+      const charEls = titleRef.current?.querySelectorAll(".char");
+      if (charEls?.length) {
+        gsap.fromTo(charEls,
           { clipPath: "inset(0 100% 0 0)", opacity: 0 },
           {
             clipPath: "inset(0 0% 0 0)",
@@ -50,9 +52,7 @@ export default function HeroSection({ tier }: Props) {
         gsap.fromTo(titleWrapRef.current,
           { rotationX: 20, y: 30 },
           {
-            rotationX: 0,
-            y: 0,
-            ease: "power2.out",
+            rotationX: 0, y: 0, ease: "power2.out",
             scrollTrigger: {
               trigger: sectionRef.current,
               start: "top bottom",
@@ -84,23 +84,6 @@ export default function HeroSection({ tier }: Props) {
           gsap.set(navRef.current, { opacity: 1 - self.progress * 2 });
         },
       });
-
-      // Left content subtle parallax
-      if (leftRef.current) {
-        gsap.fromTo(leftRef.current.querySelector(".left-content"),
-          { y: 0 },
-          {
-            y: -40,
-            ease: "none",
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top top",
-              end: "bottom top",
-              scrub: 1,
-            },
-          }
-        );
-      }
     }, sectionRef);
     return () => ctx.revert();
   }, [reduced, isLow]);
@@ -108,10 +91,7 @@ export default function HeroSection({ tier }: Props) {
   return (
     <section ref={sectionRef} id="hero" className="relative h-screen overflow-hidden bg-white font-mono">
       {/* NAV */}
-      <nav
-        ref={navRef}
-        className="fixed left-0 right-0 top-0 z-50 px-12 py-6"
-      >
+      <nav ref={navRef} className="fixed left-0 right-0 top-0 z-50 px-12 py-6">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
           <span className="text-sm font-bold tracking-tight text-black">vinxxo</span>
           <div className="flex items-center gap-8 text-[10px] tracking-[0.2em] text-black/50 uppercase">
@@ -125,18 +105,10 @@ export default function HeroSection({ tier }: Props) {
       </nav>
 
       {/* LEFT — white half */}
-      <div ref={leftRef} className="absolute inset-y-0 left-0 z-10 w-1/2 overflow-hidden bg-white">
-        <div className="left-content flex h-full flex-col items-center justify-center px-16">
-          <div className="mb-4 flex items-center gap-2 self-start">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-black" />
-            <span className="text-[10px] tracking-[0.25em] text-black/40 uppercase">Creative Technologist</span>
-          </div>
-
-          <p className="mt-4 max-w-xs self-start text-xs leading-relaxed text-black/40">
-            High-performance web experiences at the intersection of design and code.
-          </p>
-
-          <div className="mt-10 self-start">
+      <div ref={leftRef} className="absolute inset-y-0 left-0 z-10 w-1/2 bg-white overflow-hidden">
+        <div className="flex h-full flex-col items-center justify-center px-16">
+          {/* left CTA — bottom-left */}
+          <div className="absolute bottom-16 left-16">
             <MagneticButton
               href="#contact"
               className="rounded-none border-2 border-black bg-black px-8 py-3 text-[10px] tracking-[0.25em] text-white uppercase transition-colors hover:bg-white hover:text-black"
@@ -150,18 +122,8 @@ export default function HeroSection({ tier }: Props) {
       {/* RIGHT — black half */}
       <div ref={rightRef} className="absolute inset-y-0 right-0 z-10 w-1/2 bg-black">
         <div className="flex h-full flex-col items-center justify-center px-16">
-          <div className="mb-6 flex items-center gap-2 self-start">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-            <span className="text-[10px] tracking-[0.25em] text-white/40 uppercase">Featured Work</span>
-          </div>
-          <div className="self-start">
-            {["Every pixel tells a story.", "Every interaction intentional."].map((t, i) => (
-              <p key={i} className="font-mono text-xl font-semibold leading-tight text-white md:text-2xl">
-                {t}
-              </p>
-            ))}
-          </div>
-          <div className="mt-10 self-start">
+          {/* right CTA — bottom-right */}
+          <div className="absolute bottom-16 right-16">
             <MagneticButton
               href="#portfolio"
               className="rounded-none border-2 border-white px-8 py-3 text-[10px] tracking-[0.25em] text-white uppercase transition-colors hover:bg-white hover:text-black"
@@ -172,23 +134,41 @@ export default function HeroSection({ tier }: Props) {
         </div>
       </div>
 
-      {/* CENTER TITLE — spanning divider */}
-      <div ref={titleWrapRef} className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none" style={{ perspective: "800px" }}>
+      {/* CENTER TITLE — split across divider */}
+      <div
+        ref={titleWrapRef}
+        className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none"
+        style={{ perspective: "800px" }}
+      >
         <h1
           ref={titleRef}
-          className="font-mono text-[clamp(4rem,12vw,10rem)] font-bold leading-none tracking-tighter text-black"
+          className="font-mono text-[clamp(3rem,10vw,8rem)] font-bold leading-none tracking-tighter"
           style={{ transformStyle: "preserve-3d" }}
         >
-          {"vinxxo".split("").map((ch, i) => (
-            <span key={i} className="char inline-block" style={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}>
-              {ch === " " ? "\u00A0" : ch}
-            </span>
-          ))}
+          {chars.map((ch, i) => {
+            const isLeft = i < Math.floor(chars.length / 2);
+            return (
+              <span
+                key={i}
+                className="char inline-block"
+                style={{
+                  clipPath: "inset(0 100% 0 0)",
+                  opacity: 0,
+                  color: isLeft ? "#000" : "#fff",
+                  textShadow: isLeft
+                    ? "0 0 1px rgba(0,0,0,0.3), -1px 0 0 rgba(0,0,0,0.1)"
+                    : "0 0 1px rgba(255,255,255,0.3), 1px 0 0 rgba(255,255,255,0.1)",
+                }}
+              >
+                {ch === " " ? "\u00A0" : ch}
+              </span>
+            );
+          })}
         </h1>
       </div>
 
       {/* DIVIDER */}
-      <div ref={dividerRef} className="absolute left-1/2 top-0 z-30 h-full w-[1px] -translate-x-1/2 bg-black/15" />
+      <div ref={dividerRef} className="absolute left-1/2 top-0 z-30 h-full w-[1px] -translate-x-1/2 bg-black/20" />
     </section>
   );
 }
