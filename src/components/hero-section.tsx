@@ -114,26 +114,10 @@ export default function HeroSection({ tier }: Props) {
         <div className="flex h-full flex-col items-center justify-center px-16" />
       </div>
 
-      {/* CTA BUTTONS — centered at bottom, ~50px apart */}
-      <div className="absolute bottom-16 left-1/2 z-20 flex -translate-x-1/2 gap-[50px]">
-        <MagneticButton
-          href="#contact"
-          className="rounded-none border-2 border-black bg-black px-8 py-3 text-[10px] tracking-[0.25em] text-white uppercase transition-colors hover:bg-white hover:text-black"
-        >
-          Contact
-        </MagneticButton>
-        <MagneticButton
-          href="#portfolio"
-          className="rounded-none border-2 border-white px-8 py-3 text-[10px] tracking-[0.25em] text-white uppercase transition-colors hover:bg-white hover:text-black"
-        >
-          Portfolio
-        </MagneticButton>
-      </div>
-
-      {/* CENTER TITLE — split across divider */}
+      {/* CENTER TITLE + CTA BUTTONS — stacked vertically */}
       <div
         ref={titleWrapRef}
-        className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none"
+        className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-12 pointer-events-none"
         style={{ perspective: "800px" }}
       >
         <h1
@@ -161,6 +145,22 @@ export default function HeroSection({ tier }: Props) {
             );
           })}
         </h1>
+
+        {/* CTA BUTTONS */}
+        <div className="flex gap-[50px] pointer-events-auto">
+          <MagneticButton
+            href="#contact"
+            className="rounded-none border-2 border-black bg-black px-8 py-3 text-[10px] tracking-[0.25em] text-white uppercase transition-colors hover:bg-white hover:text-black"
+          >
+            Contact
+          </MagneticButton>
+          <MagneticButton
+            href="#portfolio"
+            className="rounded-none border-2 border-white px-8 py-3 text-[10px] tracking-[0.25em] text-white uppercase transition-colors hover:bg-white hover:text-black"
+          >
+            Portfolio
+          </MagneticButton>
+        </div>
       </div>
 
       {/* DIVIDER */}
