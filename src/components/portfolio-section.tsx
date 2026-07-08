@@ -3,9 +3,10 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import type { DeviceTier } from "@/hooks/use-device-capability";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface Props { tier: DeviceTier }
 
@@ -65,7 +66,7 @@ export default function PortfolioSection({ tier }: Props) {
   }, [modal]);
 
   return (
-    <section id="portfolio" ref={sectionRef} className="ascii-dark-bg relative min-h-screen bg-black px-16 py-32 font-mono">
+    <section id="portfolio" ref={sectionRef} className="relative min-h-screen bg-black px-16 py-32 font-mono">
       <div ref={headingRef} className="mx-auto max-w-7xl">
         <div className="mb-2 flex items-center gap-2">
           <span className="inline-block h-2 w-2 rounded-full bg-accent" />

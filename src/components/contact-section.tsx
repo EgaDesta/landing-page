@@ -3,9 +3,10 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import type { DeviceTier } from "@/hooks/use-device-capability";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface Props { tier: DeviceTier }
 

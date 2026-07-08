@@ -40,7 +40,19 @@ export default function AboutSection({ tier }: Props) {
     if (reduced || !sec.current) return;
     const el = sec.current;
     const ctx = gsap.context(() => {
-      // Pin + dark panel vertical→horizontal
+      // Phase 1: panel expand 50vw→100vw (morph from hero right panel)
+      gsap.to(panelRef.current, {
+        width: "100vw",
+        ease: "power2.inOut",
+        scrollTrigger: {
+          trigger: el,
+          start: "top bottom",
+          end: "top top",
+          scrub: 1.5,
+        },
+      });
+
+      // Phase 2: pin + rotate vertical→horizontal + content reveal
       gsap.fromTo(panelRef.current,
         { rotationX: 0 },
         {
@@ -55,7 +67,7 @@ export default function AboutSection({ tier }: Props) {
       if (tx.current) {
         gsap.fromTo(tx.current, { opacity: 0, y: 40 }, {
           opacity: 1, y: 0, ease: "power3.out",
-          scrollTrigger: { trigger: el, start: "top+=40% top", end: "+=150%", scrub: 2 },
+          scrollTrigger: { trigger: el, start: "top+=30% top", end: "+=150%", scrub: 2 },
         });
       }
 
@@ -64,7 +76,7 @@ export default function AboutSection({ tier }: Props) {
       if (st?.length) {
         gsap.fromTo(st, { opacity: 0, y: 20, scale: 0.8 }, {
           opacity: 1, y: 0, scale: 1, stagger: 0.1, ease: "back.out(2)",
-          scrollTrigger: { trigger: el, start: "top+=60% top", end: "+=150%", scrub: 2 },
+          scrollTrigger: { trigger: el, start: "top+=50% top", end: "+=150%", scrub: 2 },
         });
       }
     }, el);
@@ -126,11 +138,11 @@ export default function AboutSection({ tier }: Props) {
 
   return (
     <section id="about" ref={sec} className="relative bg-black font-mono overflow-hidden" style={{ perspective: "1000px" }}>
-      {/* Dark panel — rotates vertical→horizontal */}
+      {/* Dark panel — starts at 50vw (matches hero right panel) → expands → rotates */}
       <div
         ref={panelRef}
-        className="fixed inset-0 z-20 bg-black"
-        style={{ transformOrigin: "50% 100%", transformStyle: "preserve-3d" }}
+        className="fixed inset-y-0 right-0 z-20 bg-black"
+        style={{ width: "50vw", transformOrigin: "50% 100%", transformStyle: "preserve-3d" }}
       />
 
       {/* Particles */}

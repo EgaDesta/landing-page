@@ -3,9 +3,10 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import type { DeviceTier } from "@/hooks/use-device-capability";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface Props { tier: DeviceTier }
 
@@ -72,6 +73,7 @@ export default function ServicesSection({ tier }: Props) {
         {services.map((s, i) => (
           <div
             key={s.num}
+            id={`service-${i}`}
             className="service-panel relative flex h-full flex-col justify-center px-16"
             style={{ width: `${100 / services.length}%` }}
           >
